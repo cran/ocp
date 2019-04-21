@@ -5,7 +5,7 @@ context("Testing with minimal outputs")
 # test different combinations of the possible settings of algorithm
 
 # set up
-
+suppressWarnings(RNGversion("3.5.0"))
 # simulate UV and MV data
 set.seed(1)
 simUVgauss<-simGaussMiss<- c(rnorm(n=20, mean=30), rnorm(n=20, mean=60), rnorm(n=33, mean=20), rnorm(n=33, mean=200))
@@ -16,6 +16,7 @@ sim3Vpoiss<- cbind(simUVpoiss+10, simUVpoiss, simUVpoiss+90)
 sim3Vmix <- cbind(sim3Vpoiss, sim3Vgauss)
 # generate one with missing points:
 numremoved<- 0.1*length(simUVgauss)
+
 set.seed(1)
 removeIndices<- sample.int(length(simUVgauss), round(numremoved)) # chose indices to be NA
 simGaussMiss[removeIndices]<-NA
@@ -76,9 +77,6 @@ run_online_ocpd<-function(datapts, missPts, hazard_func=function(x, lambda){cons
                                  multivariate=multivariate, truncRlim = truncRlim, minRlength= minRlength,
                                  maxRlength= maxRlength, minsep=minsep, maxsep=maxsep, getR = getR,
                                  optionalOutputs = optionalOutputs)
-    #print(curr_ocpd_onres$R)
-    # print("Online mode:")
-    # print(length(curr_ocpd_onres$logprobcps))
 
   }
   return(curr_ocpd_onres)
@@ -96,7 +94,6 @@ run_ocpds<- function(data_param, option_param, output_opts){
                      truncRlim = option_param$truncRlim, minRlength= option_param$minRlength,
                      maxRlength= option_param$maxRlength,
                      minsep=option_param$minsep, maxsep=option_param$maxsep,
-                     #fuzzwindow= option_param$fuzzwindow,
                      getR=output_opts$getR, optionalOutputs = output_opts$optionalOutputs)
 
   # online mode
@@ -107,7 +104,6 @@ run_ocpds<- function(data_param, option_param, output_opts){
                           truncRlim = option_param$truncRlim, minRlength= option_param$minRlength,
                           maxRlength= option_param$maxRlength,
                           minsep=option_param$minsep, maxsep=option_param$maxsep,
-                          #fuzzwindow= option_param$fuzzwindow,
                           getR=output_opts$getR, optionalOutputs = output_opts$optionalOutputs)
   return(list(onres=onres, offres=offres))
 }

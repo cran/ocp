@@ -5,7 +5,7 @@ context("Testing combos of input params with different input data")
 # test different combinations of the possible settings of algorithm
 
 # set up
-
+suppressWarnings(RNGversion("3.5.0"))
 # simulate UV and MV data
 set.seed(1)
 simUVgauss<- c(rnorm(n=20, mean=30), rnorm(n=20, mean=60), rnorm(n=33, mean=20), rnorm(n=33, mean=200))
@@ -129,22 +129,7 @@ for(dataid in 1:length(data_params)){
                      "  Option params:  ", optid, "  ", list(option_params[[optid]]))
     test_that(testcase,{
       ocpd_res<- run_ocpds(data_param = data_params[[dataid]], option_param = option_params[[optid]])
-      # compare to regular cps
-      # oncps<- maxCP(ocpd_res$onres)
-      # offcps<- maxCP(ocpd_res$offres)
-      # oncpsf<- filterCP(ocpd_res$onres, buffer=2)
-      # offcpsf<- filterCP(ocpd_res$offres, buffer=2)
-      # expect_equal(oncps, trueCPs)
-      # expect_equal(offcps, trueCPs)
-      # expect_equal(oncpsf+1, trueCPs)
-      # expect_equal(offcpsf+1, trueCPs)
-      #
-      # # compare to findCP result
-      # onfindcps<-findCP(ocpd_res$onres, buffer=2)
-      # offfindcps<-findCP(ocpd_res$offres, buffer=2)
-      # expect_equal(onfindcps, offfindcps)
-      # expect_equal(length(offfindcps), length(trueCPs), tolerance=3)
-      # expect_subset(offfindcps, trueCPs, tol=10)
+
       for(cplistid in 1:length(ocpd_res$onres$changepoint_lists)){
         oncps<- ocpd_res$onres$changepoint_lists[[cplistid]][[1]]
         offcps<- ocpd_res$offres$changepoint_lists[[cplistid]][[1]]

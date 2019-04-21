@@ -1,6 +1,7 @@
 context("Testing reproducibility of results with examples")
 
 # simulate data
+suppressWarnings(RNGversion("3.5.0"))
 
 set.seed(1)
 simUVgauss<-simGaussMiss<- c(rnorm(n=20, mean=30), rnorm(n=20, mean=25), # short runs
@@ -15,6 +16,7 @@ sim3Vpoiss<- cbind(simUVpoiss+10, simUVpoiss, simUVpoiss+90)
 sim3Vmix <- cbind(sim3Vpoiss, sim3Vgauss)
 # generate one with missing points:
 numremoved<- 0.1*length(simUVgauss)
+
 set.seed(1)
 removeIndices<- sample.int(length(simUVgauss), round(numremoved)) # chose indices to be NA
 simGaussMiss[removeIndices]<-NA

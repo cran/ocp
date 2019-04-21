@@ -1,7 +1,7 @@
 context("Testing missing data replacement options")
 
 # set up
-
+suppressWarnings(RNGversion("3.5.0"))
 # simulate UV and MV data
 set.seed(1)
 simUVgauss1<-simUVgauss2<-simUVgauss3<- c(rnorm(n=20, mean=30), rnorm(n=20, mean=600), rnorm(n=33, mean=20), rnorm(n=33, mean=200))

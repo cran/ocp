@@ -1,7 +1,7 @@
 Package: ocp
 Type: Package
 Title: Bayesian Online Changepoint Detection
-Version: 0.1.0
+Version: 0.1.1
 Author: Andrea Pagotto
 Maintainer: Andrea Pagotto <ajpagotto@gmail.com>
 Description: Implements the Bayesian online changepoint
@@ -19,6 +19,6 @@ Depends: R (>= 3.4.0)
 Suggests: testthat, knitr, rmarkdown
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2018-12-17 17:29:15 UTC; pagottoa
+Packaged: 2019-04-20 03:03:43 UTC; andreapagotto
 Repository: CRAN
-Date/Publication: 2018-12-27 23:20:03 UTC
+Date/Publication: 2019-04-21 15:00:03 UTC
