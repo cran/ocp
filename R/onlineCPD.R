@@ -113,18 +113,33 @@ function(datapts, oCPD=NULL,missPts = "none",
   if(is.null(ocpd_settings$cpthreshold)) ocpd_settings$cpthreshold<- cpthreshold
   if(is.null(ocpd_settings$truncRlim)) ocpd_settings$truncRlim<- truncRlim
 
-  # if loading an existing ocpd object, check for compatible settings
-  if(!is.null(oCPD)){
-    if(!(class(oCPD)=="ocp")) stop("Argument oCPD must be of type \"ocp\"")
-    if(!identical(as.character(oCPD$ocpd_settings[c(-1, -2)]), as.character(ocpd_settings[c(-1, -2)])))
-      stop(print("Incompatible ocpd settings with input ocpd object."),
-           for(set_id in 1:length(ocpd_settings)){ # starting from "misspts"
-             if(as.character(ocpd_settings[[set_id]])!= as.character(oCPD$ocpd_settings[[set_id]])){
-               print(ocpd_settings[[set_id]])
-               print(oCPD$ocpd_settings[[set_id]])
-             }
-           })
-  }
+    # if loading an existing ocpd object, check for compatible settings
+    if(!is.null(oCPD)){
+      if(!(class(oCPD)=="ocp")) stop("Argument oCPD must be of type \"ocp\"")
+      param_to_check <- c("probModel","init_params","hazard_func","cpthreshold","truncRlim")
+      
+      param_ocpd_settings <- ocpd_settings[names(ocpd_settings) %in% param_to_check]
+      param_existing_settings <- oCPD$ocpd_settings[names(oCPD$ocpd_settings) %in% param_to_check]
+      
+      if(!identical(as.character(param_existing_settings), as.character(param_ocpd_settings)))
+        stop(print("Incompatible ocpd settings with input ocpd object."),
+             for(set_id in (1:length(param_ocpd_settings))){ # starting from "misspts"
+               p1 <- param_existing_settings[[set_id]]
+               p2 <- param_ocpd_settings[[set_id]]
+               if((class(p2) != "function" & class(p1) != "function")){
+                 if(as.character(p2)!= as.character(p1)){
+                   print(p2)
+                   print(p1)
+                 }
+               }else{
+                 if(body(p2)!= body(p1)){
+                   print(p2)
+                   print(p1)
+                 }
+               }
+                        
+             })
+    }
 
   if(is.null(datapts)) stop("Needs input data points.")
 
